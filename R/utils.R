@@ -17,7 +17,9 @@ create_if_needed <- function(
 		"file",
 		"directory"
 	),
-	content = NULL
+	content = NULL,
+	overwrite = FALSE,
+	warn_if_exists = TRUE
 ) {
 	type <- match.arg(
 		type
@@ -25,65 +27,78 @@ create_if_needed <- function(
 
 	# Check if file or dir already exist
 	if (type == "file") {
-		dont_exist <- Negate(
-			fs_file_exists
-		)(
-			path
-		)
+		already_exists <- fs_file_exists(path)
 	} else if (type == "directory") {
-		dont_exist <- Negate(
-			fs_dir_exists
-		)(
-			path
-		)
+		already_exists <- fs_dir_exists(path)
 	}
-	# If it doesn't exist, ask if we are allowed to create it
-	if (dont_exist) {
-		if (rlang_is_interactive()) {
+
+	# If it already exists, handle overwrite logic
+	if (already_exists) {
+		if (!overwrite) {
+			if (rlang_is_interactive()) {
+				# In interactive mode, ask user if they want to overwrite
+				ask <- yesno(
+					sprintf(
+						"The %s %s already exists, overwrite?",
+						basename(path),
+						type
+					)
+				)
+				if (!ask) {
+					return(TRUE) # File exists, user doesn't want to overwrite
+				}
+			} else {
+				# In non-interactive mode, warn but don't overwrite (if warnings enabled)
+				if (warn_if_exists) {
+					warning(
+						sprintf(
+							"The %s %s already exists and will not be overwritten. Set overwrite = TRUE to force overwrite.",
+							basename(path),
+							type
+						),
+						call. = FALSE
+					)
+				}
+				return(TRUE) # File exists, not overwriting
+			}
+		}
+		# If we reach here, either overwrite = TRUE or user said yes to overwrite
+	}
+
+	# If it doesn't exist, or we're overwriting, create it
+	if (!already_exists || overwrite) {
+		if (rlang_is_interactive() && !already_exists) {
+			# In interactive mode, ask if we should create new files/dirs
 			ask <- ask_golem_creation_file(
 				path,
 				type
 			)
 			# Return early if the user doesn't allow
 			if (!ask) {
-				return(
-					FALSE
-				)
+				return(FALSE)
 			}
-			# Create the file
-			if (type == "file") {
-				fs_file_create(
-					path
-				)
+		}
+
+		# Create the file or directory
+		if (type == "file") {
+			fs_file_create(path)
+			if (!is.null(content)) {
 				write(
 					content,
 					path,
-					append = TRUE
-				)
-			} else if (type == "directory") {
-				fs_dir_create(
-					path,
-					recurse = TRUE
+					append = !overwrite # If overwriting, don't append
 				)
 			}
-		} else {
-			# We don't create the file if we are not in
-			# interactive mode
-			stop(
-				sprintf(
-					"The %s %s doesn't exist.",
-					basename(
-						path
-					),
-					type
-				)
+		} else if (type == "directory") {
+			fs_dir_create(
+				path,
+				recurse = TRUE
 			)
 		}
 	}
+
 	# TRUE means that file exists (either created or already there)
-	return(
-		TRUE
-	)
+	return(TRUE)
 }
 
 ask_golem_creation_file <- function(

@@ -85,7 +85,8 @@ add_module <- function(
 			golem_wd,
 			"R"
 		),
-		type = "directory"
+		type = "directory",
+		warn_if_exists = FALSE
 	)
 
 	if (!dir_created) {
