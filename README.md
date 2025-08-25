@@ -1,4 +1,3 @@
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
@@ -12,7 +11,7 @@ status](https://www.r-pkg.org/badges/version/golem)](https://cran.r-project.org/
 
 # {golem} <img src="https://raw.githubusercontent.com/ThinkR-open/golem/master/inst/rstudio/templates/project/golem.png" align="right" width="120"/>
 
-> You’re reading the doc about version: 0.5.1.9011. Note that `{golem}`
+> You’re reading the doc about version: 0.5.1.9013. Note that `{golem}`
 > follows the [semantic versioning](https://semver.org/) scheme.
 
 Production-grade `{shiny}` applications, from creation to deployment.
@@ -29,20 +28,20 @@ through every step of the development process.
 
 ## Installation
 
-- You can install the stable version from CRAN with:
+-   You can install the stable version from CRAN with:
 
-``` r
-install.packages("golem")
-```
+<!-- -->
 
-- You can install the development version from
-  [GitHub](https://github.com/Thinkr-open/golem) with:
+    install.packages("golem")
 
-``` r
-# install.packages("remotes")
-remotes::install_github("Thinkr-open/golem") # Stable development version
-# remotes::install_github("Thinkr-open/golem@dev") # Bleeding edge development version
-```
+-   You can install the development version from
+    [GitHub](https://github.com/Thinkr-open/golem) with:
+
+<!-- -->
+
+    # install.packages("remotes")
+    remotes::install_github("Thinkr-open/golem") # Stable development version
+    # remotes::install_github("Thinkr-open/golem@dev") # Bleeding edge development version
 
 ## Get Started
 
@@ -52,17 +51,15 @@ Create a new app with the project template from RStudio:
 
 Or use the `golem::create_golem()` function:
 
-``` r
-golem::create_golem("myapp")
-```
+    golem::create_golem("myapp")
 
 See your app in action by running `golem::run_dev()` function.
 
 Then, follow the scripts at:
 
-- `dev/01_start.R` to configure your project at launch
-- `dev/02_dev.R` for day to day development
-- `dev/03_deploy.R` to build the deployment enabler for your app
+-   `dev/01_start.R` to configure your project at launch
+-   `dev/02_dev.R` for day to day development
+-   `dev/03_deploy.R` to build the deployment enabler for your app
 
 ## Resources
 
@@ -80,89 +77,80 @@ with blogposts, and links to other packages of the `golemverse`.
 
 This `README` has been compiled on the
 
-``` r
-Sys.time()
-#> [1] "2025-05-30 15:24:30 CEST"
-```
+    Sys.time()
+    #> [1] "2025-08-25 22:10:55 UTC"
 
 Here are the test & coverage results:
 
-``` r
-devtools::check(quiet = TRUE)
-#> ℹ Loading golem
-#> ── R CMD check results ─────────────────────────────────── golem 0.5.1.9011 ────
-#> Duration: 52.7s
-#> 
-#> ❯ checking for future file timestamps ... NOTE
-#>   unable to verify current time
-#> 
-#> 0 errors ✔ | 0 warnings ✔ | 1 note ✖
-```
+    devtools::check(quiet = TRUE)
+    #> ℹ Loading golem
+    #> ── R CMD check results ─────────────────────────────────── golem 0.5.1.9013 ────
+    #> Duration: 49.7s
+    #> 
+    #> 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-``` r
-Sys.setenv("NOT_CRAN" = TRUE)
-covr::package_coverage()
-#> golem Coverage: 88.56%
-#> R/boostrap_base.R: 0.00%
-#> R/bootstrap_attachment.R: 0.00%
-#> R/bootstrap_pkgload.R: 0.00%
-#> R/bootstrap_roxygen2.R: 0.00%
-#> R/bootstrap_rstudio_api.R: 0.00%
-#> R/bootstrap_testthat.R: 0.00%
-#> R/bootstrap_dockerfiler.R: 23.33%
-#> R/test_helpers.R: 47.37%
-#> R/bootstrap_desc.R: 55.56%
-#> R/cli_msg.R: 75.64%
-#> R/modules_fn.R: 76.44%
-#> R/install_dev_deps.R: 78.26%
-#> R/addins.R: 78.65%
-#> R/add_r_files.R: 78.79%
-#> R/config.R: 80.29%
-#> R/add_rstudio_files.R: 80.82%
-#> R/bootstrap_usethis.R: 85.45%
-#> R/disable_autoload.R: 88.00%
-#> R/reload.R: 88.64%
-#> R/sanity_check.R: 88.64%
-#> R/add_dockerfiles.R: 89.61%
-#> R/add_dockerfiles_renv.R: 89.68%
-#> R/make_dev.R: 90.00%
-#> R/use_favicon.R: 90.82%
-#> R/js.R: 93.75%
-#> R/use_files_internal.R: 93.75%
-#> R/use_recommended.R: 94.34%
-#> R/add_files.R: 95.15%
-#> R/create_golem.R: 95.86%
-#> R/boostrap_cli.R: 96.43%
-#> R/run_dev.R: 96.77%
-#> R/desc.R: 96.84%
-#> R/use_utils.R: 98.04%
-#> R/utils.R: 99.32%
-#> R/add_resource_path.R: 100.00%
-#> R/boostrap_crayon.R: 100.00%
-#> R/boostrap_fs.R: 100.00%
-#> R/browser_button.R: 100.00%
-#> R/bundle_resources.R: 100.00%
-#> R/cats.R: 100.00%
-#> R/enable_roxygenize.R: 100.00%
-#> R/get_sysreqs.R: 100.00%
-#> R/globals.R: 100.00%
-#> R/golem_welcome_page.R: 100.00%
-#> R/golem-yaml-get.R: 100.00%
-#> R/golem-yaml-set.R: 100.00%
-#> R/golem-yaml-utils.R: 100.00%
-#> R/is_golem.R: 100.00%
-#> R/is_running.R: 100.00%
-#> R/maintenance_page.R: 100.00%
-#> R/pkg_tools.R: 100.00%
-#> R/set_golem_options.R: 100.00%
-#> R/templates.R: 100.00%
-#> R/use_files_external_tools.R: 100.00%
-#> R/use_files_external.R: 100.00%
-#> R/use_files_internal_tools.R: 100.00%
-#> R/use_files_shared_tools.R: 100.00%
-#> R/use_readme.R: 100.00%
-#> R/with_opt.R: 100.00%
-```
+    Sys.setenv("NOT_CRAN" = TRUE)
+    covr::package_coverage()
+    #> golem Coverage: 88.09%
+    #> R/boostrap_base.R: 0.00%
+    #> R/bootstrap_attachment.R: 0.00%
+    #> R/bootstrap_pkgload.R: 0.00%
+    #> R/bootstrap_roxygen2.R: 0.00%
+    #> R/bootstrap_rstudio_api.R: 0.00%
+    #> R/bootstrap_testthat.R: 0.00%
+    #> R/bootstrap_dockerfiler.R: 23.33%
+    #> R/test_helpers.R: 45.06%
+    #> R/bootstrap_desc.R: 50.00%
+    #> R/addins.R: 76.00%
+    #> R/add_r_files.R: 78.81%
+    #> R/cli_msg.R: 80.36%
+    #> R/modules_fn.R: 80.62%
+    #> R/install_dev_deps.R: 80.70%
+    #> R/add_rstudio_files.R: 81.36%
+    #> R/add_dockerfiles_renv.R: 81.40%
+    #> R/reload.R: 82.83%
+    #> R/bootstrap_usethis.R: 85.45%
+    #> R/js.R: 86.21%
+    #> R/add_dockerfiles.R: 86.73%
+    #> R/sanity_check.R: 91.86%
+    #> R/disable_autoload.R: 91.89%
+    #> R/create_golem.R: 92.67%
+    #> R/boostrap_cli.R: 92.68%
+    #> R/add_files.R: 93.75%
+    #> R/use_favicon.R: 93.84%
+    #> R/use_files_internal.R: 95.83%
+    #> R/make_dev.R: 96.43%
+    #> R/use_recommended.R: 96.94%
+    #> R/desc.R: 97.71%
+    #> R/run_dev.R: 98.18%
+    #> R/use_utils.R: 98.87%
+    #> R/utils.R: 98.90%
+    #> R/add_resource_path.R: 100.00%
+    #> R/boostrap_crayon.R: 100.00%
+    #> R/boostrap_fs.R: 100.00%
+    #> R/browser_button.R: 100.00%
+    #> R/bundle_resources.R: 100.00%
+    #> R/cats.R: 100.00%
+    #> R/config.R: 100.00%
+    #> R/enable_roxygenize.R: 100.00%
+    #> R/get_sysreqs.R: 100.00%
+    #> R/globals.R: 100.00%
+    #> R/golem_welcome_page.R: 100.00%
+    #> R/golem-yaml-get.R: 100.00%
+    #> R/golem-yaml-set.R: 100.00%
+    #> R/golem-yaml-utils.R: 100.00%
+    #> R/is_golem.R: 100.00%
+    #> R/is_running.R: 100.00%
+    #> R/maintenance_page.R: 100.00%
+    #> R/pkg_tools.R: 100.00%
+    #> R/set_golem_options.R: 100.00%
+    #> R/templates.R: 100.00%
+    #> R/use_files_external_tools.R: 100.00%
+    #> R/use_files_external.R: 100.00%
+    #> R/use_files_internal_tools.R: 100.00%
+    #> R/use_files_shared_tools.R: 100.00%
+    #> R/use_readme.R: 100.00%
+    #> R/with_opt.R: 100.00%
 
 ## CoC
 
@@ -174,12 +162,10 @@ By participating in this project you agree to abide by its terms.
 
 Please style the files according to `grkstyle::grk_style_transformer()`
 
-``` r
-# If you work in RStudio
-options(styler.addins_style_transformer = "grkstyle::grk_style_transformer()")
+    # If you work in RStudio
+    options(styler.addins_style_transformer = "grkstyle::grk_style_transformer()")
 
-# If you work in VSCode
-options(languageserver.formatting_style = function(options) {
-  grkstyle::grk_style_transformer()
-})
-```
+    # If you work in VSCode
+    options(languageserver.formatting_style = function(options) {
+      grkstyle::grk_style_transformer()
+    })
