@@ -15,7 +15,9 @@ test_that("rlang_is_interactive() works", {
 })
 
 test_that("create_if_needed creates a file if required", {
-	expect_error(
+	# Test: Non-interactive mode should now succeed and create the file
+	temp_file <- tempfile()
+	expect_true(
 		testthat::with_mocked_bindings(
 			rlang_is_interactive = function() {
 				return(
@@ -24,11 +26,13 @@ test_that("create_if_needed creates a file if required", {
 			},
 			code = {
 				create_if_needed(
-					tempfile()
+					temp_file
 				)
 			}
 		)
 	)
+	expect_true(file.exists(temp_file))
+	unlink(temp_file)
 	expect_false(
 		testthat::with_mocked_bindings(
 			rlang_is_interactive = function() {
@@ -487,5 +491,61 @@ test_that("signal_path_is_deprecated works", {
 			)
 		},
 		regexp = "mons"
+	)
+})
+
+test_that("sanitize_r_name works correctly", {
+	# Test spaces to underscores
+	expect_equal(
+		golem:::sanitize_r_name("ma fonction"),
+		"ma_fonction"
+	)
+
+	# Test special characters
+	expect_equal(
+		golem:::sanitize_r_name("my-special@function!"),
+		"my_special_function"
+	)
+
+	# Test uppercase to lowercase
+	expect_equal(
+		golem:::sanitize_r_name("UPPERCASE Function Name"),
+		"uppercase_function_name"
+	)
+
+	# Test leading number
+	expect_equal(
+		golem:::sanitize_r_name("123test"),
+		"x123test"
+	)
+
+	# Test multiple underscores consolidation
+	expect_equal(
+		golem:::sanitize_r_name("test___multiple___underscores"),
+		"test_multiple_underscores"
+	)
+
+	# Test leading/trailing underscores removal
+	expect_equal(
+		golem:::sanitize_r_name("_test_function_"),
+		"test_function"
+	)
+
+	# Test empty name
+	expect_equal(
+		golem:::sanitize_r_name(""),
+		"unnamed"
+	)
+
+	# Test NA name
+	expect_equal(
+		golem:::sanitize_r_name(NA_character_),
+		"unnamed"
+	)
+
+	# Test already valid name
+	expect_equal(
+		golem:::sanitize_r_name("valid_name"),
+		"valid_name"
 	)
 })

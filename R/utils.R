@@ -430,3 +430,39 @@ signal_arg_is_deprecated <- function(
 		)
 	}
 }
+
+#' Sanitize R names
+#'
+#' Convert a string to a valid R name for functions and variables
+#'
+#' @param name character string to sanitize
+#' @return character string with a valid R name
+#' @noRd
+sanitize_r_name <- function(name) {
+	if (is.na(name) || nchar(name) == 0) {
+		return("unnamed")
+	}
+
+	# Convert to lowercase and replace spaces with underscores
+	name <- tolower(name)
+	name <- gsub("[[:space:]]+", "_", name)
+
+	# Replace any non-alphanumeric characters with underscores
+	name <- gsub("[^a-zA-Z0-9_]", "_", name)
+
+	# Remove leading/trailing underscores and consolidate multiple underscores
+	name <- gsub("^_+|_+$", "", name)
+	name <- gsub("_+", "_", name)
+
+	# If name starts with a number, prefix with 'x'
+	if (grepl("^[0-9]", name)) {
+		name <- paste0("x", name)
+	}
+
+	# If name is empty after cleaning, use "unnamed"
+	if (nchar(name) == 0) {
+		name <- "unnamed"
+	}
+
+	return(name)
+}
